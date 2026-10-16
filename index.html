@@ -80,6 +80,17 @@ main{max-width:760px;margin:0 auto;padding:16px 16px calc(40px + env(safe-area-i
 .dm{font-family:var(--body);font-size:var(--fs);line-height:var(--lh);margin-top:.15em}
 .dt{font-family:var(--ui);font-size:calc(var(--fs)*.68);color:var(--mute);font-style:italic;line-height:1.5;margin-top:.4em}
 .cnt{display:inline-block;font-family:var(--ui);font-style:normal;font-size:.72em;font-weight:600;color:var(--acc);background:var(--accbg);border-radius:8px;padding:.1em .55em;margin-right:.5em}
+.ltop{display:flex;align-items:center;gap:12px}
+.ltop .dar{flex:1;min-width:0}
+.spk{width:52px;height:52px;flex:none;border-radius:50%;border:2px solid var(--acc);background:transparent;color:var(--acc);display:grid;place-items:center;padding:0}
+.spk svg,.pall svg{width:22px;height:22px;fill:currentColor}
+.spk.playing{background:var(--acc);color:var(--bg)}
+.ln.hl{background:var(--accbg);border-radius:18px;margin:0 -14px;padding-left:14px;padding-right:14px;border-bottom-color:transparent}
+.audio{display:flex;flex-wrap:wrap;gap:10px;margin:.2em 0 .5em}
+.pall{flex:1 1 230px;min-height:60px;border-radius:20px;border:2px solid var(--acc);background:var(--acc);color:var(--bg);font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px}
+.pall.on{background:transparent;color:var(--acc)}
+.audio .seg{flex:1 1 200px}
+.ahint{font-family:var(--ui);font-size:13px;color:var(--mute);line-height:1.5;margin:.2em 0 .6em}
 .ln.ask{font-family:var(--body);font-size:var(--fs);line-height:var(--lh);color:var(--acc);font-weight:600;padding:1.1em 0 1.1em 1em;border-left:4px solid var(--acc);border-bottom:0;margin:.6em 0}
 .learn{width:100%;min-height:68px;margin-top:32px;border-radius:22px;border:2px solid var(--acc);background:transparent;color:var(--acc);font-size:18px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px}
 .learn.on{background:var(--acc);color:var(--bg)}
@@ -132,7 +143,7 @@ input[type=range]{width:100%;height:56px;accent-color:var(--acc);margin:0}
 const S=window.S;
 const DU=window.DUA;
 const $=s=>document.querySelector(s);
-const defaults={theme:'auto',fs:20,pd:24,lh:1.7,font:'serif'};
+const defaults={theme:'auto',fs:20,pd:24,lh:1.7,font:'serif',rate:'slow'};
 let P={...defaults};
 try{Object.assign(P,JSON.parse(localStorage.getItem('n99prefs')||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem('n99prefs',JSON.stringify(P))}catch(e){}};
@@ -207,23 +218,84 @@ function dlist(){
   <div class="grid">${DU.map(d=>`<a class="card d" href="#/dua/${d.n}"><span class="num">${d.n}</span><span class="t"><div class="tr">${d.title}</div><div class="m">${d.ref}</div></span><span class="ar" lang="ar">${d.ar}</span></a>`).join('')}</div><p class="disc">Written with AI for easy reading. Please check sources and ask a scholar for rulings or anything you are unsure of.</p>`;
   scrollTo(0,gy('#/dua'));
 }
+/* ---- audio: reads the Arabic lines aloud with the device's own Arabic voice ---- */
+const TTS=window.speechSynthesis&&window.SpeechSynthesisUtterance?window.speechSynthesis:null;
+const RATES={slow:.6,normal:.9};
+const PLAY='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+const STOP='<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>';
+const NOVOICE='No Arabic voice was found on this device. iPhone: Settings, Accessibility, Spoken Content, Voices, Arabic. Android: Settings, System, Languages, Text-to-speech, install Arabic. Then reload this page.';
+let spk={id:0,idx:-1,all:false,timer:0};
+const arVoice=()=>{if(!TTS)return null;const v=TTS.getVoices().filter(x=>/^ar/i.test(x.lang));return v.find(x=>/^ar[-_]SA$/i.test(x.lang))||v[0]||null};
+function voiceHint(){const h=$('#vhint');if(h)h.textContent=TTS&&!arVoice()?NOVOICE:''}
+if(TTS)TTS.onvoiceschanged=voiceHint;
+function markAudio(){
+  document.querySelectorAll('.ln[data-i]').forEach(el=>el.classList.toggle('hl',+el.dataset.i===spk.idx));
+  document.querySelectorAll('.spk').forEach(b=>{const on=+b.dataset.i===spk.idx;b.classList.toggle('playing',on);b.innerHTML=on?STOP:PLAY;b.setAttribute('aria-label',on?'Stop':'Play this line')});
+  const pa=$('#pall');if(pa){pa.classList.toggle('on',spk.all);pa.innerHTML=(spk.all?STOP:PLAY)+`<span>${spk.all?'Stop':'Listen to the full dua'}</span>`}
+}
+function stopAudio(){
+  spk.id++;clearTimeout(spk.timer);spk.all=false;spk.idx=-1;
+  if(TTS)TTS.cancel();
+  markAudio();
+}
+/* says line i of dua d, then calls after() */
+function sayLine(d,i,after){
+  const v=arVoice();
+  if(!v){stopAudio();voiceHint();return}
+  const my=spk.id;spk.idx=i;markAudio();
+  if(spk.all){const el=document.querySelector(`.ln[data-i="${i}"]`);if(el&&el.scrollIntoView)el.scrollIntoView({block:'center',behavior:'smooth'})}
+  const u=new SpeechSynthesisUtterance(d.lines[i].ar);
+  u.voice=v;u.lang=v.lang;u.rate=RATES[P.rate]||RATES.slow;
+  const done=()=>{if(my===spk.id)after()};
+  u.onend=done;u.onerror=done;
+  if(TTS.speaking||TTS.pending)TTS.cancel();
+  TTS.speak(u);
+}
+function playOne(d,i){
+  const was=spk.idx===i&&!spk.all;
+  stopAudio();
+  if(!was)sayLine(d,i,()=>{spk.idx=-1;markAudio()});
+}
+function playAll(d){
+  const wasAll=spk.all;
+  stopAudio();
+  if(wasAll)return;
+  const order=d.lines.map((l,i)=>l.ar&&!l.skip?i:-1).filter(i=>i>=0);
+  let k=0;spk.all=true;
+  const next=()=>{
+    if(!spk.all)return;
+    if(k>=order.length){stopAudio();return}
+    sayLine(d,order[k++],()=>{spk.timer=setTimeout(next,900)});
+  };
+  next();
+}
 function dua(i){
   const d=DU[i-1];if(!d)return dlist();
   tabs(null);
   document.title=d.title+' — Dua';
   bar(`<a class="ib" href="#/dua" aria-label="Back">${BACK}</a>`,d.title);
   const pv=DU[i-2],nx=DU[i];
-  const lines=d.lines.map(l=>l.step?`<div class="ln ask">${inl(l.step)}</div>`:`<div class="ln"><div class="dar" lang="ar">${l.ar}</div><div class="dm">${l.x?`<span class="cnt">× ${l.x}</span>`:''}${inl(l.m)}</div><div class="dt">${l.t}</div></div>`).join('');
+  const lines=d.lines.map((l,idx)=>l.step?`<div class="ln ask">${inl(l.step)}</div>`:`<div class="ln" data-i="${idx}"><div class="ltop">${TTS?`<button class="spk" data-i="${idx}" aria-label="Play this line">${PLAY}</button>`:''}<div class="dar" lang="ar">${l.ar}</div></div><div class="dm">${l.x?`<span class="cnt">× ${l.x}</span>`:''}${inl(l.m)}</div><div class="dt">${l.t}</div></div>`).join('');
+  const audio=TTS?`<div class="audio"><button class="pall" id="pall">${PLAY}<span>Listen to the full dua</span></button><div class="seg" id="rate" data-k="rate"><button data-v="slow">Slow</button><button data-v="normal">Normal</button></div></div><p class="ahint" id="vhint"></p><p class="ahint">The voice is your device’s computer voice, not a reciter. Use it as a guide, and check the exact pronunciation with a teacher.</p>`:'';
   $('#app').innerHTML=`<div class="read"><div class="hero"><div class="k">${d.n} / ${DU.length}</div><div class="ar sm" lang="ar">${d.ar}</div><div class="tr">${d.title}</div><div class="m">${d.ref}</div></div>
   <div class="prose"><h3>The hadith</h3>${paras(d.hadith)}<h3>Explanation</h3>${paras(d.explain)}<h3>The dua, line by line</h3></div>
+  ${audio}
   <div class="lines">${lines}</div>
   <p class="disc">${d.src}</p>
   <p class="disc">Written with AI for easy reading. Please check sources and ask a scholar for rulings or anything you are unsure of.</p>
   <div class="pn">${pv?`<a href="#/dua/${pv.n}"><small>← Previous</small><b>${pv.title}</b></a>`:'<span></span>'}${nx?`<a class="nx" href="#/dua/${nx.n}"><small>Next →</small><b>${nx.title}</b></a>`:'<span></span>'}</div></div>`;
+  if(TTS){
+    document.querySelectorAll('.spk').forEach(b=>b.onclick=()=>playOne(d,+b.dataset.i));
+    $('#pall').onclick=()=>playAll(d);
+    const rs=$('#rate'),sync=()=>rs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',P.rate===b.dataset.v));
+    rs.onclick=e=>{const b=e.target.closest('button');if(b){P.rate=b.dataset.v;save();sync()}};
+    sync();voiceHint();setTimeout(voiceHint,1200);
+  }
   scrollTo(0,0);
 }
 /* any other hash (including old links) shows the names list */
 function route(){
+  stopAudio();
   const h=location.hash;
   if(h.startsWith('#/s/'))name(+h.slice(4));
   else if(h.startsWith('#/dua/'))dua(+h.slice(6));
