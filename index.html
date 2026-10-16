@@ -61,6 +61,7 @@ main{max-width:760px;margin:0 auto;padding:16px 16px calc(40px + env(safe-area-i
 .soontag{font-size:12px;font-weight:600;color:var(--mute);flex:none}
 .prose h3{font-family:var(--ui);font-size:.62em;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);margin:2em 0 .6em}
 .prose blockquote{margin:0 0 1.1em;padding:.1em 0 .1em 1em;border-left:4px solid var(--acc);font-style:italic}
+.prose p.nt{font-size:.85em;color:var(--mute)}
 .disc{margin-top:28px;font-family:var(--ui);font-size:13px;color:var(--mute);line-height:1.5}
 .sub{margin:28px 4px 10px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
 /* reader */
@@ -135,7 +136,7 @@ const saveL=k=>{try{localStorage.setItem(LK[k],JSON.stringify([...LS[k]]))}catch
 const cnt=(k,t)=>[...LS[k]].filter(i=>i>=1&&i<=t).length;
 const progH=(k,t)=>`<div class="prog"><div class="tx">${cnt(k,t)} of ${t} learned</div><div class="bg"><div class="fl" style="width:${cnt(k,t)/t*100}%"></div></div></div>`;
 const inl=t=>t.replace(/\*(.+?)\*/g,'<em>$1</em>');
-const sbody=b=>b.map(x=>`<h3>${x.h}</h3>`+x.t.split('\n').map(l=>l.startsWith('> ')?`<blockquote>${inl(l.slice(2))}</blockquote>`:`<p>${inl(l)}</p>`).join('')).join('');
+const sbody=b=>b.map(x=>`<h3>${x.h}</h3>`+x.t.split('\n').map(l=>l.startsWith('> ')?`<blockquote>${inl(l.slice(2))}</blockquote>`:l.startsWith('Note: ')?`<p class="nt">${inl(l)}</p>`:`<p>${inl(l)}</p>`).join('')).join('');
 const tabs=a=>{$('#tabs').innerHTML=`<a href="#/" class="${a==='s'?'on':''}">Simple</a><a href="#/g" class="${a==='g'?'on':''}">Ghazali</a>`};
 const S=window.S;
 const grp=(i,t)=>i%10===0?`<div class="grp">${i+1}–${Math.min(i+10,t)}</div>`:'';
@@ -201,7 +202,7 @@ function slist(){
   document.title='Simple — 99 Names of Allah';tabs('s');
   $('#bar').innerHTML=`<span class="sp"></span><h1>99 Names of Allah</h1><button class="ib" id="aa" aria-label="Reading settings">${AA}</button>`;$('#aa').onclick=()=>sheet(true);
   $('#app').innerHTML=`<div class="lead"><div class="a">أسماء الله الحسنى</div><p>Simple explanations, stories and examples</p>${progH('s',S.length)}</div>
-  <div class="grid">${S.map((n,i)=>grp(i,S.length)+`<a class="card${LS.s.has(n.n)?' ok':''}${n.b?'':' soon'}" href="#/s/${n.n}"><span class="num">${n.n}</span><span class="t"><div class="tr">${n.tr}</div><div class="m">${n.m}</div></span><span class="ar" lang="ar">${n.ar}</span>${n.b?`<span class="chk">${CHECK}</span>`:'<span class="soontag">Soon</span>'}</a>`).join('')}</div>`;
+  <div class="grid">${S.map((n,i)=>grp(i,S.length)+`<a class="card${LS.s.has(n.n)?' ok':''}${n.b?'':' soon'}" href="#/s/${n.n}"><span class="num">${n.n}</span><span class="t"><div class="tr">${n.tr}</div><div class="m">${n.m}</div></span><span class="ar" lang="ar">${n.ar}</span>${n.b?`<span class="chk">${CHECK}</span>`:'<span class="soontag">Soon</span>'}</a>`).join('')}</div><p class="disc">Written with AI for easy reading. Names follow the commonly used list of 99; scholars differ slightly on the exact list. Please check sources and ask a scholar for anything you are unsure of.</p>`;
   scrollTo(0,gy('#/'));
 }
 function sname(i){
