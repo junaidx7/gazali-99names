@@ -52,6 +52,13 @@ main{max-width:760px;margin:0 auto;padding:16px 16px calc(40px + env(safe-area-i
 .prog .bg{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
 .prog .fl{height:100%;background:var(--acc);border-radius:4px;transition:width .3s}
 .disc{margin-top:28px;font-family:var(--ui);font-size:13px;color:var(--mute);line-height:1.5}
+.tabs{max-width:760px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 12px 10px}
+.tabs:empty{display:none}
+.tabs a{min-height:52px;border-radius:16px;display:grid;place-items:center;font-size:16px;font-weight:600;color:var(--mute);background:var(--bg);border:1px solid var(--line)}
+.tabs a.on{background:var(--accbg);color:var(--acc);border-color:var(--acc)}
+.card.d{display:grid;grid-template-columns:24px 1fr;column-gap:14px;row-gap:2px;align-items:center;padding:18px 20px}
+.card.d .t{grid-column:2}
+.card.d .ar{grid-column:2;max-width:100%;text-align:right;font-size:28px;line-height:1.7;margin-top:6px}
 /* reader */
 .read{padding:0 var(--pad)}
 .hero{text-align:center;padding:36px 0 28px;border-bottom:1px solid var(--line);margin-bottom:28px}
@@ -64,6 +71,16 @@ main{max-width:760px;margin:0 auto;padding:16px 16px calc(40px + env(safe-area-i
 .prose p.nt{font-size:.85em;color:var(--mute)}
 .prose h3{font-family:var(--ui);font-size:.62em;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);margin:2em 0 .6em}
 .prose blockquote{margin:0 0 1.1em;padding:.1em 0 .1em 1em;border-left:4px solid var(--acc);font-style:italic}
+.hero .ar.sm{font-size:calc(var(--fs)*2.1);line-height:1.7}
+.prose strong{font-weight:600}
+.lines{margin-top:.4em}
+.ln{padding:1.1em 0;border-bottom:1px solid var(--line)}
+.ln:last-child{border-bottom:0}
+.dar{font-family:var(--ar);font-size:calc(var(--fs)*1.75);line-height:1.9;direction:rtl;text-align:right}
+.dm{font-family:var(--body);font-size:var(--fs);line-height:var(--lh);margin-top:.15em}
+.dt{font-family:var(--ui);font-size:calc(var(--fs)*.68);color:var(--mute);font-style:italic;line-height:1.5;margin-top:.4em}
+.cnt{display:inline-block;font-family:var(--ui);font-style:normal;font-size:.72em;font-weight:600;color:var(--acc);background:var(--accbg);border-radius:8px;padding:.1em .55em;margin-right:.5em}
+.ln.ask{font-family:var(--body);font-size:var(--fs);line-height:var(--lh);color:var(--acc);font-weight:600;padding:1.1em 0 1.1em 1em;border-left:4px solid var(--acc);border-bottom:0;margin:.6em 0}
 .learn{width:100%;min-height:68px;margin-top:32px;border-radius:22px;border:2px solid var(--acc);background:transparent;color:var(--acc);font-size:18px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px}
 .learn.on{background:var(--acc);color:var(--bg)}
 .learn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
@@ -93,7 +110,7 @@ input[type=range]{width:100%;height:56px;accent-color:var(--acc);margin:0}
 </style>
 </head>
 <body>
-<header class="top"><div class="bar" id="bar"></div></header>
+<header class="top"><div class="bar" id="bar"></div><nav class="tabs" id="tabs"></nav></header>
 <main id="app"></main>
 <div class="scrim" id="scrim"></div>
 <section class="sheet" id="sheet" aria-label="Reading settings">
@@ -110,9 +127,10 @@ input[type=range]{width:100%;height:56px;accent-color:var(--acc);margin:0}
     <div class="seg" data-k="font"><button data-v="serif">Serif</button><button data-v="sans">Sans</button></div></div>
   <button class="done" id="done">Done</button>
 </section>
-<script src="d/s.js"></script>
+<script src="d/s.js"></script><script src="d/dua.js"></script>
 <script>
 const S=window.S;
+const DU=window.DUA;
 const $=s=>document.querySelector(s);
 const defaults={theme:'auto',fs:20,pd:24,lh:1.7,font:'serif'};
 let P={...defaults};
@@ -125,10 +143,13 @@ try{L=new Set(JSON.parse(localStorage.getItem(LKEY)||'[]'))}catch(e){}
 const saveL=()=>{try{localStorage.setItem(LKEY,JSON.stringify([...L]))}catch(e){}};
 try{localStorage.removeItem('n99learned')}catch(e){}  /* old key from a removed feature */
 const count=()=>[...L].filter(i=>i>=1&&i<=S.length).length;
-const inl=t=>t.replace(/\*(.+?)\*/g,'<em>$1</em>');
+const inl=t=>t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>');
+const paras=a=>a.map(t=>`<p>${inl(t)}</p>`).join('');
+/* tabs are shown on the two home lists only; readers pass null to hide them */
+const tabs=a=>{$('#tabs').innerHTML=a?`<a href="#/" class="${a==='n'?'on':''}">Names of Allah</a><a href="#/dua" class="${a==='d'?'on':''}">Dua</a>`:''};
 const sbody=b=>b.map(x=>`<h3>${x.h}</h3>`+x.t.split('\n').map(l=>l.startsWith('> ')?`<blockquote>${inl(l.slice(2))}</blockquote>`:l.startsWith('Note: ')?`<p class="nt">${inl(l)}</p>`:`<p>${inl(l)}</p>`).join('')).join('');
 const grp=(i,t)=>i%10===0?`<div class="grp">${i+1}–${Math.min(i+10,t)}</div>`:'';
-const gy=()=>{try{return +sessionStorage.getItem('y')||0}catch(e){return 0}};
+const gy=h=>{try{return +sessionStorage.getItem('y'+h)||0}catch(e){return 0}};
 const CHECK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 const AA='<svg viewBox="0 0 24 24"><path d="M4 19 9 5l5 14M6 14h6M15 19l3-8 3 8M16 17h4"/></svg>';
 const BACK='<svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>';
@@ -157,14 +178,16 @@ addEventListener('keydown',e=>{if(e.key==='Escape')sheet(false)});
 const bar=(left,title)=>{$('#bar').innerHTML=`${left}<h1>${title}</h1><button class="ib" id="aa" aria-label="Reading settings">${AA}</button>`;$('#aa').onclick=()=>sheet(true)};
 function list(){
   document.title='99 Names of Allah';
+  tabs('n');
   bar('<span class="sp"></span>','99 Names of Allah');
   const c=count();
   $('#app').innerHTML=`<div class="lead"><div class="a">أسماء الله الحسنى</div><p>Simple explanations, stories and examples</p><div class="prog"><div class="tx">${c} of ${S.length} learned</div><div class="bg"><div class="fl" style="width:${c/S.length*100}%"></div></div></div></div>
   <div class="grid">${S.map((n,i)=>grp(i,S.length)+`<a class="card${L.has(n.n)?' ok':''}" href="#/s/${n.n}"><span class="num">${n.n}</span><span class="t"><div class="tr">${n.tr}</div><div class="m">${n.m}</div></span><span class="ar" lang="ar">${n.ar}</span><span class="chk">${CHECK}</span></a>`).join('')}</div><p class="disc">Written with AI for easy reading. Names follow the commonly used list of 99; scholars differ slightly on the exact list. Please check sources and ask a scholar for anything you are unsure of.</p>`;
-  scrollTo(0,gy());
+  scrollTo(0,gy('#/'));
 }
 function name(i){
   const n=S[i-1];if(!n)return list();
+  tabs(null);
   document.title=n.tr+' — 99 Names';
   bar(`<a class="ib" href="#/" aria-label="Back">${BACK}</a>`,n.tr);
   const pv=S[i-2],nx=S[i];
@@ -176,14 +199,39 @@ function name(i){
   $('#lb').onclick=()=>{L.has(n.n)?L.delete(n.n):L.add(n.n);saveL();const on=L.has(n.n);$('#lb').classList.toggle('on',on);$('#lb').setAttribute('aria-pressed',on);$('#lb span').textContent=on?'Learned':'Mark as learned'};
   scrollTo(0,0);
 }
-/* any other hash (including old links) shows the list */
+function dlist(){
+  document.title='Dua — 99 Names of Allah';
+  tabs('d');
+  bar('<span class="sp"></span>','Dua');
+  $('#app').innerHTML=`<div class="lead"><div class="a">الدعاء</div><p>Duas from the hadith, line by line</p></div>
+  <div class="grid">${DU.map(d=>`<a class="card d" href="#/dua/${d.n}"><span class="num">${d.n}</span><span class="t"><div class="tr">${d.title}</div><div class="m">${d.ref}</div></span><span class="ar" lang="ar">${d.ar}</span></a>`).join('')}</div><p class="disc">Written with AI for easy reading. Please check sources and ask a scholar for rulings or anything you are unsure of.</p>`;
+  scrollTo(0,gy('#/dua'));
+}
+function dua(i){
+  const d=DU[i-1];if(!d)return dlist();
+  tabs(null);
+  document.title=d.title+' — Dua';
+  bar(`<a class="ib" href="#/dua" aria-label="Back">${BACK}</a>`,d.title);
+  const pv=DU[i-2],nx=DU[i];
+  const lines=d.lines.map(l=>l.step?`<div class="ln ask">${inl(l.step)}</div>`:`<div class="ln"><div class="dar" lang="ar">${l.ar}</div><div class="dm">${l.x?`<span class="cnt">× ${l.x}</span>`:''}${inl(l.m)}</div><div class="dt">${l.t}</div></div>`).join('');
+  $('#app').innerHTML=`<div class="read"><div class="hero"><div class="k">${d.n} / ${DU.length}</div><div class="ar sm" lang="ar">${d.ar}</div><div class="tr">${d.title}</div><div class="m">${d.ref}</div></div>
+  <div class="prose"><h3>The hadith</h3>${paras(d.hadith)}<h3>Explanation</h3>${paras(d.explain)}<h3>The dua, line by line</h3></div>
+  <div class="lines">${lines}</div>
+  <p class="disc">${d.src}</p>
+  <p class="disc">Written with AI for easy reading. Please check sources and ask a scholar for rulings or anything you are unsure of.</p>
+  <div class="pn">${pv?`<a href="#/dua/${pv.n}"><small>← Previous</small><b>${pv.title}</b></a>`:'<span></span>'}${nx?`<a class="nx" href="#/dua/${nx.n}"><small>Next →</small><b>${nx.title}</b></a>`:'<span></span>'}</div></div>`;
+  scrollTo(0,0);
+}
+/* any other hash (including old links) shows the names list */
 function route(){
   const h=location.hash;
   if(h.startsWith('#/s/'))name(+h.slice(4));
+  else if(h.startsWith('#/dua/'))dua(+h.slice(6));
+  else if(h==='#/dua')dlist();
   else list();
 }
-/* remember where you were in the list when you open a name */
-$('#app').addEventListener('click',e=>{if(e.target.closest('a.card'))try{sessionStorage.setItem('y',scrollY)}catch(_){}});
+/* remember where you were in a list when you open a card */
+$('#app').addEventListener('click',e=>{if(e.target.closest('a.card'))try{sessionStorage.setItem('y'+(location.hash||'#/'),scrollY)}catch(_){}});
 addEventListener('hashchange',route);
 apply();route();
 </script>
