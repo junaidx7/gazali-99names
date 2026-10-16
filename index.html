@@ -52,6 +52,14 @@ main{max-width:760px;margin:0 auto;padding:16px 16px calc(40px + env(safe-area-i
 .learn{width:100%;min-height:68px;margin-top:32px;border-radius:22px;border:2px solid var(--acc);background:transparent;color:var(--acc);font-size:18px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px}
 .learn.on{background:var(--acc);color:var(--bg)}
 .learn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.tabs{max-width:760px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 12px 10px}
+.tabs a{min-height:52px;border-radius:16px;display:grid;place-items:center;font-size:16px;font-weight:600;color:var(--mute);background:var(--bg);border:1px solid var(--line)}
+.tabs a.on{background:var(--accbg);color:var(--acc);border-color:var(--acc)}
+.card.soon{opacity:.5}
+.soontag{font-size:12px;font-weight:600;color:var(--mute);flex:none}
+.prose h3{font-family:var(--ui);font-size:.62em;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);margin:2em 0 .6em}
+.prose blockquote{margin:0 0 1.1em;padding:.1em 0 .1em 1em;border-left:4px solid var(--acc);font-style:italic}
+.disc{margin-top:28px;font-family:var(--ui);font-size:13px;color:var(--mute);line-height:1.5}
 .sub{margin:28px 4px 10px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
 /* reader */
 .read{padding:0 var(--pad)}
@@ -93,7 +101,7 @@ input[type=range]{width:100%;height:56px;accent-color:var(--acc);margin:0}
 </style>
 </head>
 <body>
-<header class="top"><div class="bar" id="bar"></div></header>
+<header class="top"><div class="bar" id="bar"></div><nav class="tabs" id="tabs"></nav></header>
 <main id="app"></main>
 <div class="scrim" id="scrim"></div>
 <section class="sheet" id="sheet" aria-label="Reading settings">
@@ -110,7 +118,7 @@ input[type=range]{width:100%;height:56px;accent-color:var(--acc);margin:0}
     <div class="seg" data-k="font"><button data-v="serif">Serif</button><button data-v="sans">Sans</button></div></div>
   <button class="done" id="done">Done</button>
 </section>
-<script src="d/n0.js"></script><script src="d/n1.js"></script><script src="d/n2.js"></script><script src="d/n3.js"></script><script src="d/n4.js"></script><script src="d/n5.js"></script><script src="d/n6.js"></script><script src="d/n7.js"></script><script src="d/x.js"></script>
+<script src="d/n0.js"></script><script src="d/n1.js"></script><script src="d/n2.js"></script><script src="d/n3.js"></script><script src="d/n4.js"></script><script src="d/n5.js"></script><script src="d/n6.js"></script><script src="d/n7.js"></script><script src="d/x.js"></script><script src="d/s.js"></script>
 <script>
 const DATA=window.D;
 const N=DATA.n,E=DATA.e;
@@ -118,9 +126,17 @@ const $=s=>document.querySelector(s);
 const defaults={theme:'auto',fs:20,pd:24,lh:1.7,font:'serif'};
 let P={...defaults};
 try{Object.assign(P,JSON.parse(localStorage.getItem('n99prefs')||'{}'))}catch(e){}
-let L=new Set();
-try{L=new Set(JSON.parse(localStorage.getItem('n99learned')||'[]'))}catch(e){}
-const saveL=()=>{try{localStorage.setItem('n99learned',JSON.stringify([...L]))}catch(e){}};
+const LK={g:'n99learned',s:'n99learned_s'};
+const LS={g:new Set(),s:new Set()};
+for(const k in LK){try{LS[k]=new Set(JSON.parse(localStorage.getItem(LK[k])||'[]'))}catch(e){}}
+const saveL=k=>{try{localStorage.setItem(LK[k],JSON.stringify([...LS[k]]))}catch(e){}};
+const cnt=(k,t)=>[...LS[k]].filter(i=>i>=1&&i<=t).length;
+const progH=(k,t)=>`<div class="prog"><div class="tx">${cnt(k,t)} of ${t} learned</div><div class="bg"><div class="fl" style="width:${cnt(k,t)/t*100}%"></div></div></div>`;
+const inl=t=>t.replace(/\*(.+?)\*/g,'<em>$1</em>');
+const sbody=b=>b.map(x=>`<h3>${x.h}</h3>`+x.t.split('\n').map(l=>l.startsWith('> ')?`<blockquote>${inl(l.slice(2))}</blockquote>`:`<p>${inl(l)}</p>`).join('')).join('');
+const tabs=a=>{$('#tabs').innerHTML=`<a href="#/" class="${a==='s'?'on':''}">Simple</a><a href="#/g" class="${a==='g'?'on':''}">Ghazali</a>`};
+const S=window.S;
+const gy=h=>{try{return +sessionStorage.getItem('y'+h)||0}catch(e){return 0}};
 const CHECK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 const save=()=>{try{localStorage.setItem('n99prefs',JSON.stringify(P))}catch(e){}};
 const mq=matchMedia('(prefers-color-scheme: dark)');
@@ -150,38 +166,62 @@ const BACK='<svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>';
 const body=b=>b.map(p=>p.k==='note'?`<div class="note"><b>${p.l}</b><p>${p.t}</p></div>`:`<p>${p.t}</p>`).join('');
 const bar=(left,title)=>{$('#bar').innerHTML=`${left}<h1>${title}</h1><button class="ib" id="aa" aria-label="Reading settings">${AA}</button>`;$('#aa').onclick=()=>sheet(true)};
 function list(){
-  document.title='99 Names of Allah';
+  document.title='Ghazali — 99 Names of Allah';tabs('g');
   $('#bar').innerHTML=`<span class="sp"></span><h1>99 Names of Allah</h1><button class="ib" id="aa" aria-label="Reading settings">${AA}</button>`;$('#aa').onclick=()=>sheet(true);
-  $('#app').innerHTML=`<div class="lead"><div class="a">أسماء الله الحسنى</div><p>Al-Ghazali's explanations</p><div class="prog"><div class="tx">${[...L].filter(i=>N[i-1]).length} of ${N.length} learned</div><div class="bg"><div class="fl" style="width:${[...L].filter(i=>N[i-1]).length/N.length*100}%"></div></div></div></div>
-  <div class="grid">${N.map(n=>`<a class="card${L.has(n.n)?' ok':''}" href="#/n/${n.n}"><span class="num">${n.n}</span><span class="t"><div class="tr">${n.tr.join(' · ')}</div><div class="m">${n.m}</div></span><span class="ar" lang="ar">${n.ar}</span><span class="chk">${CHECK}</span></a>`).join('')}</div>
+  $('#app').innerHTML=`<div class="lead"><div class="a">أسماء الله الحسنى</div><p>Al-Ghazali's classical explanations</p>${progH('g',N.length)}</div>
+  <div class="grid">${N.map(n=>`<a class="card${LS.g.has(n.n)?' ok':''}" href="#/n/${n.n}"><span class="num">${n.n}</span><span class="t"><div class="tr">${n.tr.join(' · ')}</div><div class="m">${n.m}</div></span><span class="ar" lang="ar">${n.ar}</span><span class="chk">${CHECK}</span></a>`).join('')}</div>
   <div class="sub">Also</div><div class="grid">${E.map((x,i)=>`<a class="card" href="#/x/${i}" style="min-height:76px"><span class="t"><div class="tr">${x.title}</div></span></a>`).join('')}</div>`;
-  const y=+sessionStorage.getItem('n99y')||0;scrollTo(0,y);
+  scrollTo(0,gy('#/g'));
 }
 function name(i){
   const n=N[i-1];if(!n)return list();
+  tabs('g');
   document.title=n.tr.join(' · ')+' — 99 Names';
-  bar(`<a class="ib" href="#/" aria-label="Back">${BACK}</a>`,n.tr.join(' · '));
+  bar(`<a class="ib" href="#/g" aria-label="Back">${BACK}</a>`,n.tr.join(' · '));
   const pv=N[i-2],nx=N[i];
   $('#app').innerHTML=`<div class="read"><div class="hero"><div class="k">${n.n} / ${N.length}</div><div class="ar" lang="ar">${n.ar}</div><div class="tr">${n.tr.join(' · ')}</div><div class="m">${n.m}</div></div>
   <div class="prose">${body(n.body)}</div>
-  <button class="learn${L.has(n.n)?' on':''}" id="lb" aria-pressed="${L.has(n.n)}">${CHECK}<span>${L.has(n.n)?'Learned':'Mark as learned'}</span></button>
+  <button class="learn${LS.g.has(n.n)?' on':''}" id="lb" aria-pressed="${LS.g.has(n.n)}">${CHECK}<span>${LS.g.has(n.n)?'Learned':'Mark as learned'}</span></button>
   <div class="pn">${pv?`<a href="#/n/${pv.n}"><small>← Previous</small><b>${pv.tr[0]}</b></a>`:'<span></span>'}${nx?`<a class="nx" href="#/n/${nx.n}"><small>Next →</small><b>${nx.tr[0]}</b></a>`:'<span></span>'}</div></div>`;
-  $('#lb').onclick=()=>{L.has(n.n)?L.delete(n.n):L.add(n.n);saveL();const on=L.has(n.n);$('#lb').classList.toggle('on',on);$('#lb').setAttribute('aria-pressed',on);$('#lb span').textContent=on?'Learned':'Mark as learned'};
+  $('#lb').onclick=()=>{LS.g.has(n.n)?LS.g.delete(n.n):LS.g.add(n.n);saveL('g');const on=LS.g.has(n.n);$('#lb').classList.toggle('on',on);$('#lb').setAttribute('aria-pressed',on);$('#lb span').textContent=on?'Learned':'Mark as learned'};
   scrollTo(0,0);
 }
 function extra(i){
   const x=E[i];if(!x)return list();
+  tabs('g');
   document.title=x.title;
-  bar(`<a class="ib" href="#/" aria-label="Back">${BACK}</a>`,x.title);
+  bar(`<a class="ib" href="#/g" aria-label="Back">${BACK}</a>`,x.title);
   $('#app').innerHTML=`<div class="read"><div class="hero"><div class="tr">${x.title}</div></div><div class="prose">${body(x.body)}</div></div>`;
   scrollTo(0,0);
 }
-function route(){
-  if(location.hash.startsWith('#/n/'))name(+location.hash.slice(4));
-  else if(location.hash.startsWith('#/x/'))extra(+location.hash.slice(4));
-  else list();
+function slist(){
+  document.title='Simple — 99 Names of Allah';tabs('s');
+  $('#bar').innerHTML=`<span class="sp"></span><h1>99 Names of Allah</h1><button class="ib" id="aa" aria-label="Reading settings">${AA}</button>`;$('#aa').onclick=()=>sheet(true);
+  $('#app').innerHTML=`<div class="lead"><div class="a">أسماء الله الحسنى</div><p>Simple explanations, stories and examples</p>${progH('s',S.length)}</div>
+  <div class="grid">${S.map(n=>`<a class="card${LS.s.has(n.n)?' ok':''}${n.b?'':' soon'}" href="#/s/${n.n}"><span class="num">${n.n}</span><span class="t"><div class="tr">${n.tr}</div><div class="m">${n.m}</div></span><span class="ar" lang="ar">${n.ar}</span>${n.b?`<span class="chk">${CHECK}</span>`:'<span class="soontag">Soon</span>'}</a>`).join('')}</div>`;
+  scrollTo(0,gy('#/'));
 }
-addEventListener('scroll',()=>{if(!location.hash||location.hash==='#/')try{sessionStorage.setItem('n99y',scrollY)}catch(e){}},{passive:true});
+function sname(i){
+  const n=S[i-1];if(!n)return slist();
+  document.title=n.tr+' — 99 Names';tabs('s');
+  bar(`<a class="ib" href="#/" aria-label="Back">${BACK}</a>`,n.tr);
+  const pv=S[i-2],nx=S[i];
+  $('#app').innerHTML=`<div class="read"><div class="hero"><div class="k">${n.n} / ${S.length}</div><div class="ar" lang="ar">${n.ar}</div><div class="tr">${n.tr}</div><div class="m">${n.m}</div></div>
+  <div class="prose">${n.b?sbody(n.b):'<p>This explanation is on its way.</p>'}</div>
+  ${n.b?`<button class="learn${LS.s.has(n.n)?' on':''}" id="lb" aria-pressed="${LS.s.has(n.n)}">${CHECK}<span>${LS.s.has(n.n)?'Learned':'Mark as learned'}</span></button><p class="disc">Written with AI for easy reading. Please check sources and ask a scholar for rulings or anything you are unsure of.</p>`:''}
+  <div class="pn">${pv?`<a href="#/s/${pv.n}"><small>← Previous</small><b>${pv.tr}</b></a>`:'<span></span>'}${nx?`<a class="nx" href="#/s/${nx.n}"><small>Next →</small><b>${nx.tr}</b></a>`:'<span></span>'}</div></div>`;
+  if(n.b)$('#lb').onclick=()=>{LS.s.has(n.n)?LS.s.delete(n.n):LS.s.add(n.n);saveL('s');const on=LS.s.has(n.n);$('#lb').classList.toggle('on',on);$('#lb').setAttribute('aria-pressed',on);$('#lb span').textContent=on?'Learned':'Mark as learned'};
+  scrollTo(0,0);
+}
+function route(){
+  const h=location.hash;
+  if(h.startsWith('#/n/'))name(+h.slice(4));
+  else if(h.startsWith('#/x/'))extra(+h.slice(4));
+  else if(h.startsWith('#/s/'))sname(+h.slice(4));
+  else if(h==='#/g')list();
+  else slist();
+}
+addEventListener('scroll',()=>{const h=location.hash||'#/';if(h==='#/'||h==='#/g')try{sessionStorage.setItem('y'+h,scrollY)}catch(e){}},{passive:true});
 addEventListener('hashchange',route);
 apply();route();
 </script>
