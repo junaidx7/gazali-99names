@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>99 Names of Allah</title>
+<meta name="description" content="Al-Ghazali's explanation of the Beautiful Names of God, in a calm, adjustable reader.">
+<meta name="theme-color" content="#faf8f4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23166a55'/%3E%3Ctext x='32' y='45' font-size='36' text-anchor='middle' fill='white'%3E%D8%A7%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f4;--card:#fff;--ink:#1d1b18;--mute:#7a746b;--line:#e8e3da;--acc:#166a55;--accbg:#e4f1ec;--note:#f3efe6;
+--fs:20px;--pad:24px;--lh:1.7;--body:'Newsreader',Georgia,serif;--ui:'Inter',system-ui,sans-serif;--ar:'Amiri','Noto Naskh Arabic','Geeza Pro',serif}
+:root[data-theme=dark]{--bg:#121413;--card:#1b1e1c;--ink:#ece8df;--mute:#8d9790;--line:#2b302d;--acc:#6fcfb0;--accbg:#1f2e29;--note:#212522}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);transition:background .2s,color .2s}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+.bar{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:8px;padding:8px 12px;min-height:64px}
+.bar h1{flex:1;margin:0;font-size:17px;font-weight:600;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{width:56px;height:56px;border-radius:16px;border:0;background:transparent;display:grid;place-items:center;font-size:22px;font-weight:600}
+.ib:active{background:var(--accbg)}
+.ib svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sp{width:56px}
+main{max-width:760px;margin:0 auto;padding:16px 16px calc(40px + env(safe-area-inset-bottom))}
+/* list */
+.lead{text-align:center;padding:28px 0 20px}
+.lead .a{font-family:var(--ar);font-size:44px;line-height:1.4;color:var(--acc)}
+.lead p{margin:4px 0 0;color:var(--mute);font-size:15px}
+.grid{display:grid;gap:12px}
+@media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}
+.card{display:flex;align-items:center;gap:14px;min-height:104px;padding:16px 20px;background:var(--card);border:1px solid var(--line);border-radius:22px;transition:transform .08s,border-color .15s}
+.card:active{transform:scale(.98);border-color:var(--acc)}
+.card .num{font-size:13px;font-weight:600;color:var(--mute);min-width:24px}
+.card .t{flex:1;min-width:0}
+.card .tr{font-size:19px;font-weight:600;line-height:1.3}
+.card .m{font-size:14px;color:var(--mute);margin-top:4px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .ar{font-family:var(--ar);font-size:34px;line-height:1.5;color:var(--acc);text-align:right;direction:rtl;max-width:48%}
+.sub{margin:28px 4px 10px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+/* reader */
+.read{padding:0 var(--pad)}
+.hero{text-align:center;padding:36px 0 28px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .ar{font-family:var(--ar);font-size:calc(var(--fs)*3.2);line-height:1.5;color:var(--acc);direction:rtl}
+.hero .tr{font-family:var(--ui);font-weight:600;font-size:calc(var(--fs)*1.2);margin-top:6px}
+.hero .m{font-family:var(--body);font-style:italic;color:var(--mute);font-size:calc(var(--fs)*.9);margin-top:6px}
+.hero .k{font-size:13px;font-weight:600;color:var(--mute);letter-spacing:.08em;margin-bottom:6px}
+.prose{font-family:var(--body);font-size:var(--fs);line-height:var(--lh);hyphens:auto;-webkit-hyphens:auto}
+.prose p{margin:0 0 1.1em}
+.prose .g{color:var(--mute);font-size:.88em}
+.prose .note{background:var(--note);border-left:4px solid var(--acc);border-radius:14px;padding:.8em 1em;margin:1.4em 0}
+.prose .note b{display:block;font-family:var(--ui);font-size:.62em;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);margin-bottom:.3em}
+.prose .note p{margin:0}
+.serif-off{--body:var(--ui)}
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:36px}
+.pn a,.pn span{min-height:76px;border-radius:20px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;justify-content:center;padding:12px 18px}
+.pn a:active{border-color:var(--acc)}
+.pn small{font-size:12px;color:var(--mute);font-weight:600}
+.pn b{font-size:17px}
+.pn .nx{text-align:right;align-items:flex-end}
+.pn span{opacity:.35}
+/* settings sheet */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:11;max-width:560px;margin:0 auto;background:var(--card);border-radius:28px 28px 0 0;padding:12px 20px calc(24px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .25s ease;border:1px solid var(--line);border-bottom:0}
+body.open .scrim{opacity:1;pointer-events:auto}
+body.open .sheet{transform:none}
+.grab{width:44px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 14px}
+.row{margin:14px 0}
+.row label{display:flex;justify-content:space-between;font-size:14px;font-weight:600;color:var(--mute);margin-bottom:8px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;background:var(--bg);padding:6px;border-radius:18px}
+.seg button{min-height:52px;border:0;border-radius:13px;background:transparent;font-size:16px;font-weight:600;color:var(--mute)}
+.seg button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.step{display:grid;grid-template-columns:64px 1fr 64px;gap:10px;align-items:center}
+.step button{height:56px;border-radius:16px;border:1px solid var(--line);background:var(--bg);font-size:22px;font-weight:600}
+.step button:active{background:var(--accbg)}
+input[type=range]{width:100%;height:56px;accent-color:var(--acc);margin:0}
+.done{width:100%;min-height:56px;border:0;border-radius:18px;background:var(--acc);color:var(--bg);font-size:17px;font-weight:600;margin-top:10px}
+</style>
+</head>
+<body>
+<header class="top"><div class="bar" id="bar"></div></header>
+<main id="app"></main>
+<div class="scrim" id="scrim"></div>
+<section class="sheet" id="sheet" aria-label="Reading settings">
+  <div class="grab"></div>
+  <div class="row"><label>Theme</label>
+    <div class="seg" data-k="theme"><button data-v="light">Light</button><button data-v="dark">Dark</button><button data-v="auto">Auto</button></div></div>
+  <div class="row"><label>Text size <span id="fsv"></span></label>
+    <div class="step"><button id="fsm" aria-label="Smaller">A−</button><input type="range" id="fs" min="15" max="34" step="1"><button id="fsp" aria-label="Larger">A+</button></div></div>
+  <div class="row"><label>Side padding <span id="pdv"></span></label>
+    <input type="range" id="pd" min="0" max="72" step="2"></div>
+  <div class="row"><label>Line spacing <span id="lhv"></span></label>
+    <input type="range" id="lh" min="1.4" max="2.2" step="0.05"></div>
+  <div class="row"><label>Font</label>
+    <div class="seg" data-k="font"><button data-v="serif">Serif</button><button data-v="sans">Sans</button></div></div>
+  <button class="done" id="done">Done</button>
+</section>
+<script src="d/n0.js"></script><script src="d/n1.js"></script><script src="d/n2.js"></script><script src="d/n3.js"></script><script src="d/n4.js"></script><script src="d/n5.js"></script><script src="d/n6.js"></script><script src="d/n7.js"></script><script src="d/x.js"></script>
+<script>
+const DATA=window.D;
+const N=DATA.n,E=DATA.e;
+const $=s=>document.querySelector(s);
+const defaults={theme:'auto',fs:20,pd:24,lh:1.7,font:'serif'};
+let P={...defaults};
+try{Object.assign(P,JSON.parse(localStorage.getItem('n99prefs')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('n99prefs',JSON.stringify(P))}catch(e){}};
+const mq=matchMedia('(prefers-color-scheme: dark)');
+function apply(){
+  const dark=P.theme==='dark'||(P.theme==='auto'&&mq.matches);
+  const r=document.documentElement;
+  r.dataset.theme=dark?'dark':'light';
+  r.style.setProperty('--fs',P.fs+'px');r.style.setProperty('--pad',P.pd+'px');r.style.setProperty('--lh',P.lh);
+  r.style.setProperty('--body',P.font==='serif'?"'Newsreader',Georgia,serif":"'Inter',system-ui,sans-serif");
+  document.querySelector('meta[name=theme-color]').content=dark?'#121413':'#faf8f4';
+  $('#fs').value=P.fs;$('#pd').value=P.pd;$('#lh').value=P.lh;
+  $('#fsv').textContent=P.fs+'px';$('#pdv').textContent=P.pd+'px';$('#lhv').textContent=(+P.lh).toFixed(2);
+  document.querySelectorAll('.seg').forEach(s=>s.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',P[s.dataset.k]===b.dataset.v)));
+}
+mq.addEventListener('change',apply);
+document.querySelectorAll('.seg').forEach(s=>s.onclick=e=>{const b=e.target.closest('button');if(b){P[s.dataset.k]=b.dataset.v;save();apply()}});
+const bind=(id,k,f=Number)=>$(id).oninput=e=>{P[k]=f(e.target.value);save();apply()};
+bind('#fs','fs');bind('#pd','pd');bind('#lh','lh');
+$('#fsm').onclick=()=>{P.fs=Math.max(15,P.fs-1);save();apply()};
+$('#fsp').onclick=()=>{P.fs=Math.min(34,P.fs+1);save();apply()};
+const sheet=v=>document.body.classList.toggle('open',v);
+$('#scrim').onclick=$('#done').onclick=()=>sheet(false);
+addEventListener('keydown',e=>{if(e.key==='Escape')sheet(false)});
+
+const AA='<svg viewBox="0 0 24 24"><path d="M4 19 9 5l5 14M6 14h6M15 19l3-8 3 8M16 17h4"/></svg>';
+const BACK='<svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>';
+const body=b=>b.map(p=>p.k==='note'?`<div class="note"><b>${p.l}</b><p>${p.t}</p></div>`:`<p>${p.t}</p>`).join('');
+const bar=(left,title)=>{$('#bar').innerHTML=`${left}<h1>${title}</h1><button class="ib" id="aa" aria-label="Reading settings">${AA}</button>`;$('#aa').onclick=()=>sheet(true)};
+function list(){
+  document.title='99 Names of Allah';
+  $('#bar').innerHTML=`<span class="sp"></span><h1>99 Names of Allah</h1><button class="ib" id="aa" aria-label="Reading settings">${AA}</button>`;$('#aa').onclick=()=>sheet(true);
+  $('#app').innerHTML=`<div class="lead"><div class="a">أسماء الله الحسنى</div><p>Al-Ghazali's explanations · ${N.length} entries</p></div>
+  <div class="grid">${N.map(n=>`<a class="card" href="#/n/${n.n}"><span class="num">${n.n}</span><span class="t"><div class="tr">${n.tr.join(' · ')}</div><div class="m">${n.m}</div></span><span class="ar" lang="ar">${n.ar}</span></a>`).join('')}</div>
+  <div class="sub">Also</div><div class="grid">${E.map((x,i)=>`<a class="card" href="#/x/${i}" style="min-height:76px"><span class="t"><div class="tr">${x.title}</div></span></a>`).join('')}</div>`;
+  const y=+sessionStorage.getItem('n99y')||0;scrollTo(0,y);
+}
+function name(i){
+  const n=N[i-1];if(!n)return list();
+  document.title=n.tr.join(' · ')+' — 99 Names';
+  bar(`<a class="ib" href="#/" aria-label="Back">${BACK}</a>`,n.tr.join(' · '));
+  const pv=N[i-2],nx=N[i];
+  $('#app').innerHTML=`<div class="read"><div class="hero"><div class="k">${n.n} / ${N.length}</div><div class="ar" lang="ar">${n.ar}</div><div class="tr">${n.tr.join(' · ')}</div><div class="m">${n.m}</div></div>
+  <div class="prose">${body(n.body)}</div>
+  <div class="pn">${pv?`<a href="#/n/${pv.n}"><small>← Previous</small><b>${pv.tr[0]}</b></a>`:'<span></span>'}${nx?`<a class="nx" href="#/n/${nx.n}"><small>Next →</small><b>${nx.tr[0]}</b></a>`:'<span></span>'}</div></div>`;
+  scrollTo(0,0);
+}
+function extra(i){
+  const x=E[i];if(!x)return list();
+  document.title=x.title;
+  bar(`<a class="ib" href="#/" aria-label="Back">${BACK}</a>`,x.title);
+  $('#app').innerHTML=`<div class="read"><div class="hero"><div class="tr">${x.title}</div></div><div class="prose">${body(x.body)}</div></div>`;
+  scrollTo(0,0);
+}
+function route(){
+  if(location.hash.startsWith('#/n/'))name(+location.hash.slice(4));
+  else if(location.hash.startsWith('#/x/'))extra(+location.hash.slice(4));
+  else list();
+}
+addEventListener('scroll',()=>{if(!location.hash||location.hash==='#/')try{sessionStorage.setItem('n99y',scrollY)}catch(e){}},{passive:true});
+addEventListener('hashchange',route);
+apply();route();
+</script>
+</body>
+</html>
