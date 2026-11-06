@@ -7,145 +7,193 @@
 <meta name="description" content="The 99 Names of Allah explained simply, with Quran, hadith, stories and everyday examples.">
 <meta name="theme-color" content="#faf8f4">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23166a55'/%3E%3Ctext x='32' y='45' font-size='36' text-anchor='middle' fill='white'%3E%D8%A7%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="99 Names of Allah">
+<meta property="og:description" content="The 99 Names of Allah explained simply, with Quran, hadith, stories and everyday examples.">
+<meta property="og:image" content="og.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#faf8f4;--card:#fff;--ink:#1d1b18;--mute:#7a746b;--line:#e8e3da;--acc:#166a55;--accbg:#e4f1ec;
---fs:20px;--pad:24px;--lh:1.7;--body:'Newsreader',Georgia,serif;--ui:'Inter',system-ui,sans-serif;--ar:'Amiri','Noto Naskh Arabic','Geeza Pro',serif}
-:root[data-theme=dark]{--bg:#121413;--card:#1b1e1c;--ink:#ece8df;--mute:#8d9790;--line:#2b302d;--acc:#6fcfb0;--accbg:#1f2e29}
+--ui:'Manrope',system-ui,sans-serif;--body:var(--ui);--ar:'Amiri','Noto Naskh Arabic','Geeza Pro',serif;
+--ease:cubic-bezier(.22,1,.36,1);
+/* reader sizes: set from the text size setting, always on the type scale (see LV in the script) */
+--fs:20px;--lh:1.7;--pad:24px;--f-ar:60px;--f-arsm:36px;--f-tr:24px;--f-m:18px;--f-dar:36px;--f-dt:14px;--f-h3:12px;--f-nt:16px;
+/* named text styles, defined once */
+--heading-6:600 20px/28px var(--ui);--heading-7:600 18px/28px var(--ui);
+--body-1:600 16px/24px var(--ui);--body-4:600 14px/20px var(--ui);--body-6:400 14px/20px var(--ui);
+--button-lg:600 18px/28px var(--ui);--button-md:600 16px/24px var(--ui);
+--caption-3:600 12px/16px var(--ui);--caption-5:400 12px/16px var(--ui)}
+:root[data-theme=dark]{--bg:#181818;--card:#1F1F1F;--ink:#ece8df;--mute:#8d9790;--line:#313131;--acc:#6fcfb0;--accbg:#272727}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--bg)}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);transition:background .2s,color .2s}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);transition:background-color .3s var(--ease),color .3s var(--ease)}
 button{font:inherit;color:inherit;cursor:pointer}
 a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+main:focus{outline:none}
+h1,.hero .tr,.hero .m{text-wrap:balance}
+p,.dm,.dt{text-wrap:pretty}
+em{font-style:normal;color:var(--acc)}
+.skip{position:fixed;left:12px;top:12px;z-index:20;padding:8px 12px;border-radius:12px;background:var(--acc);color:var(--bg);font:var(--button-md);transform:translateY(-200%);transition:transform .5s var(--ease)}
+.skip:focus{transform:none}
 .top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
 .bar{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:8px;padding:8px 12px;min-height:64px}
-.bar h1{flex:1;margin:0;font-size:17px;font-weight:600;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ib{width:56px;height:56px;border-radius:16px;border:0;background:transparent;display:grid;place-items:center;font-size:22px;font-weight:600}
-.ib:active{background:var(--accbg)}
-.ib svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bar h1{flex:1;margin:0;font:var(--body-1);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{width:56px;height:56px;border-radius:16px;border:0;background:transparent;display:grid;place-items:center;transition:background-color .3s var(--ease),transform .5s var(--ease)}
+.ib:active{background:var(--accbg);transform:scale(.98)}
+.ib svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .sp{width:56px}
 main{max-width:760px;margin:0 auto;padding:16px 16px calc(40px + env(safe-area-inset-bottom))}
 /* list */
-.lead{text-align:center;padding:28px 0 20px}
-.lead .a{font-family:var(--ar);font-size:44px;line-height:1.4;color:var(--acc)}
-.lead p{margin:4px 0 0;color:var(--mute);font-size:15px}
+.lead{text-align:center;padding:32px 0 24px}
+.lead .a{font-family:var(--ar);font-size:48px;line-height:1.4;color:var(--acc)}
+.lead p{margin:4px 0 0;font:var(--body-6);color:var(--mute)}
 .grid{display:grid;gap:12px}
 @media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}
-.grp{grid-column:1/-1;margin:26px 4px 2px;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.grp{grid-column:1/-1;margin:24px 4px 2px;font:var(--caption-3);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
 .grp:first-child{margin-top:4px}
-.card{display:flex;align-items:center;gap:14px;min-height:104px;padding:16px 20px;background:var(--card);border:1px solid var(--line);border-radius:22px;transition:transform .08s,border-color .15s}
+.card{display:flex;align-items:center;gap:16px;min-height:104px;padding:16px;background:var(--card);border:1px solid var(--line);border-radius:24px;transition:transform .5s var(--ease),border-color .3s var(--ease),background-color .3s var(--ease)}
 .card:active{transform:scale(.98);border-color:var(--acc)}
-.card .num{font-size:13px;font-weight:600;color:var(--mute);min-width:24px}
+.card .num{font:var(--caption-3);color:var(--mute);min-width:24px}
 .card .t{flex:1;min-width:0}
-.card .tr{font-size:19px;font-weight:600;line-height:1.3}
-.card .m{font-size:14px;color:var(--mute);margin-top:4px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card .ar{font-family:var(--ar);font-size:34px;line-height:1.5;color:var(--acc);text-align:right;direction:rtl;max-width:48%}
+.card .tr{display:block;font:var(--heading-7)}
+.card .m{font:var(--body-6);color:var(--mute);margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .ar{font-family:var(--ar);font-size:36px;line-height:1.5;color:var(--acc);text-align:right;direction:rtl;max-width:48%}
 .card.ok{border-color:var(--acc);background:var(--accbg)}
-.chk{width:28px;height:28px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center}
+.chk{width:28px;height:28px;border-radius:9999px;border:2px solid var(--line);flex:none;display:grid;place-items:center;transition:background-color .3s var(--ease),border-color .3s var(--ease)}
 .card.ok .chk{background:var(--acc);border-color:var(--acc)}
 .chk svg{width:16px;height:16px;stroke:var(--bg);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0}
 .card.ok .chk svg{opacity:1}
 .prog{margin:16px auto 0;max-width:320px}
-.prog .tx{font-size:14px;font-weight:600;color:var(--mute);margin-bottom:8px}
+.prog .tx{font:var(--body-4);color:var(--mute);margin-bottom:8px}
 .prog .bg{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
-.prog .fl{height:100%;background:var(--acc);border-radius:4px;transition:width .3s}
-.disc{margin-top:28px;font-family:var(--ui);font-size:13px;color:var(--mute);line-height:1.5}
-.tabs{max-width:760px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 12px 10px}
+.prog .fl{height:100%;background:var(--acc);transform-origin:left;transition:transform .5s var(--ease)}
+.disc{margin-top:32px;font:var(--caption-5);color:var(--mute)}
+.tabs{max-width:760px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 12px 12px}
 .tabs:empty{display:none}
-.tabs a{min-height:52px;border-radius:16px;display:grid;place-items:center;font-size:16px;font-weight:600;color:var(--mute);background:var(--bg);border:1px solid var(--line)}
+.tabs a{min-height:52px;border-radius:16px;display:grid;place-items:center;font:var(--body-1);color:var(--mute);background:var(--bg);border:1px solid var(--line);transition:color .3s var(--ease),border-color .3s var(--ease),transform .5s var(--ease)}
+.tabs a:active{transform:scale(.98)}
 .tabs a.on{background:var(--accbg);color:var(--acc);border-color:var(--acc)}
-.card.d{display:grid;grid-template-columns:24px 1fr;column-gap:14px;row-gap:2px;align-items:center;padding:18px 20px}
+.card.d{display:grid;grid-template-columns:24px 1fr;column-gap:16px;row-gap:2px;align-items:center;padding:16px}
 .card.d .t{grid-column:2}
-.card.d .ar{grid-column:2;max-width:100%;text-align:right;font-size:28px;line-height:1.7;margin-top:6px}
+.card.d .ar{grid-column:2;max-width:100%;text-align:right;font-size:30px;line-height:1.7;margin-top:8px}
 /* reader */
 .read{padding:0 var(--pad)}
-.hero{text-align:center;padding:36px 0 28px;border-bottom:1px solid var(--line);margin-bottom:28px}
-.hero .ar{font-family:var(--ar);font-size:calc(var(--fs)*3.2);line-height:1.5;color:var(--acc);direction:rtl}
-.hero .tr{font-family:var(--ui);font-weight:600;font-size:calc(var(--fs)*1.2);margin-top:6px}
-.hero .m{font-family:var(--body);font-style:italic;color:var(--mute);font-size:calc(var(--fs)*.9);margin-top:6px}
-.hero .k{font-size:13px;font-weight:600;color:var(--mute);letter-spacing:.08em;margin-bottom:6px}
-.prose{font-family:var(--body);font-size:var(--fs);line-height:var(--lh);hyphens:auto;-webkit-hyphens:auto}
-.prose p{margin:0 0 1.1em}
-.prose p.nt{font-size:.85em;color:var(--mute)}
-.prose h3{font-family:var(--ui);font-size:.62em;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);margin:2em 0 .6em}
-.prose blockquote{margin:0 0 1.1em;padding:.1em 0 .1em 1em;border-left:4px solid var(--acc);font-style:italic}
-.hero .ar.sm{font-size:calc(var(--fs)*2.1);line-height:1.7}
+.hero{text-align:center;padding:40px 0 32px;border-bottom:1px solid var(--line);margin-bottom:32px}
+.hero .ar{font-family:var(--ar);font-size:var(--f-ar);line-height:1.5;color:var(--acc);direction:rtl}
+.hero .ar.sm{font-size:var(--f-arsm);line-height:1.7}
+.hero .tr{font-family:var(--ui);font-weight:600;font-size:var(--f-tr);line-height:1.25;margin-top:8px}
+.hero .m{font-family:var(--body);color:var(--mute);font-size:var(--f-m);line-height:1.4;margin-top:8px}
+.hero .k{font:var(--caption-3);color:var(--mute);letter-spacing:.08em;margin-bottom:8px}
+.prose{font-family:var(--body);font-size:var(--fs);line-height:var(--lh)}
+.prose p{margin:0 0 24px}
+.prose p.nt{font-size:var(--f-nt);color:var(--mute)}
+.prose h3{font-family:var(--ui);font-size:var(--f-h3);line-height:1.4;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);margin:32px 0 8px;text-wrap:balance}
+.prose blockquote{margin:0 0 24px;padding:12px 16px;border-radius:12px;background:var(--accbg)}
 .prose strong{font-weight:600}
-.lines{margin-top:.4em}
-.ln{padding:1.1em 0;border-bottom:1px solid var(--line)}
+.lines{margin-top:8px}
+.ln{padding:24px 0;border-bottom:1px solid var(--line);transition:background-color .3s var(--ease)}
 .ln:last-child{border-bottom:0}
-.dar{font-family:var(--ar);font-size:calc(var(--fs)*1.75);line-height:1.9;direction:rtl;text-align:right}
-.dm{font-family:var(--body);font-size:var(--fs);line-height:var(--lh);margin-top:.15em}
-.dt{font-family:var(--ui);font-size:calc(var(--fs)*.68);color:var(--mute);font-style:italic;line-height:1.5;margin-top:.4em}
-.cnt{display:inline-block;font-family:var(--ui);font-style:normal;font-size:.72em;font-weight:600;color:var(--acc);background:var(--accbg);border-radius:8px;padding:.1em .55em;margin-right:.5em}
+.dar{font-family:var(--ar);font-size:var(--f-dar);line-height:1.9;direction:rtl;text-align:right}
+.dm{font-family:var(--body);font-size:var(--fs);line-height:var(--lh);margin-top:4px}
+.dt{font-family:var(--ui);font-size:var(--f-dt);color:var(--mute);line-height:1.5;margin-top:8px}
+.cnt{display:inline-block;font-family:var(--ui);font-size:var(--f-dt);font-weight:600;line-height:1.4;color:var(--acc);background:var(--accbg);border-radius:8px;padding:2px 8px;margin-right:8px}
 .ltop{display:flex;align-items:center;gap:12px}
 .ltop .dar{flex:1;min-width:0}
-.spk{width:52px;height:52px;flex:none;border-radius:50%;border:2px solid var(--acc);background:transparent;color:var(--acc);display:grid;place-items:center;padding:0}
-.spk svg,.pall svg{width:22px;height:22px;fill:currentColor}
+.spk{width:52px;height:52px;flex:none;border-radius:9999px;border:2px solid var(--acc);background:transparent;color:var(--acc);display:grid;place-items:center;padding:0;transition:background-color .3s var(--ease),color .3s var(--ease),transform .5s var(--ease)}
+.spk:active{transform:scale(.98)}
+.spk svg,.pall svg{width:24px;height:24px;fill:currentColor}
 .spk.playing{background:var(--acc);color:var(--bg)}
-.ln.hl{background:var(--accbg);border-radius:18px;margin:0 -14px;padding-left:14px;padding-right:14px;border-bottom-color:transparent}
-.audio{display:flex;flex-wrap:wrap;gap:10px;margin:.2em 0 .5em}
-.pall{flex:1 1 230px;min-height:60px;border-radius:20px;border:2px solid var(--acc);background:var(--acc);color:var(--bg);font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px}
+.ln.hl{background:var(--accbg);border-radius:16px;margin:0 -12px;padding-left:12px;padding-right:12px;border-bottom-color:transparent}
+.audio{display:flex;flex-wrap:wrap;gap:12px;margin:4px 0 8px}
+.pall{flex:1 1 230px;min-height:60px;padding:8px 12px;border-radius:16px;border:2px solid var(--acc);background:var(--acc);color:var(--bg);font:var(--button-md);display:flex;align-items:center;justify-content:center;gap:8px;transition:background-color .3s var(--ease),color .3s var(--ease),opacity .3s var(--ease),transform .5s var(--ease)}
+.pall:active{transform:scale(.98)}
 .pall.on{background:transparent;color:var(--acc)}
 .audio .seg{flex:1 1 200px}
-.ahint{font-family:var(--ui);font-size:13px;color:var(--mute);line-height:1.5;margin:.2em 0 .6em}
-.ln.ask{font-family:var(--body);font-size:var(--fs);line-height:var(--lh);color:var(--acc);font-weight:600;padding:1.1em 0 1.1em 1em;border-left:4px solid var(--acc);border-bottom:0;margin:.6em 0}
-.learn{width:100%;min-height:68px;margin-top:32px;border-radius:22px;border:2px solid var(--acc);background:transparent;color:var(--acc);font-size:18px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px}
+.ahint{font:var(--caption-5);color:var(--mute);margin:4px 0 12px}
+.ln.ask{font-family:var(--body);font-size:var(--fs);line-height:var(--lh);color:var(--acc);font-weight:600;padding:16px;border:0;border-radius:16px;background:var(--accbg);margin:12px 0}
+.learn{width:100%;min-height:68px;margin-top:32px;padding:8px 12px;border-radius:24px;border:2px solid var(--acc);background:transparent;color:var(--acc);font:var(--button-lg);display:flex;align-items:center;justify-content:center;gap:8px;transition:background-color .3s var(--ease),color .3s var(--ease),transform .5s var(--ease)}
+.learn:active{transform:scale(.98)}
 .learn.on{background:var(--acc);color:var(--bg)}
 .learn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.pn{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:36px}
-.pn a,.pn span{min-height:76px;border-radius:20px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;justify-content:center;padding:12px 18px}
-.pn a:active{border-color:var(--acc)}
-.pn small{font-size:12px;color:var(--mute);font-weight:600}
-.pn b{font-size:17px}
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:40px}
+.pn a,.pn span{min-height:76px;border-radius:16px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;justify-content:center;padding:12px 16px}
+.pn a{transition:border-color .3s var(--ease),transform .5s var(--ease)}
+.pn a:active{border-color:var(--acc);transform:scale(.98)}
+.pn small{font:var(--caption-3);color:var(--mute)}
+.pn b{font:var(--body-1)}
 .pn .nx{text-align:right;align-items:flex-end}
 .pn span{opacity:.35}
 /* settings sheet */
-.scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:11;max-width:560px;margin:0 auto;background:var(--card);border-radius:28px 28px 0 0;padding:12px 20px calc(24px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .25s ease;border:1px solid var(--line);border-bottom:0}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .3s var(--ease);z-index:10}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:11;max-width:560px;margin:0 auto;background:var(--card);border-radius:24px 24px 0 0;padding:12px 24px calc(24px + env(safe-area-inset-bottom));transform:translateY(105%);visibility:hidden;transition:transform .5s var(--ease),visibility 0s .5s;border:1px solid var(--line);border-bottom:0}
 body.open .scrim{opacity:1;pointer-events:auto}
-body.open .sheet{transform:none}
-.grab{width:44px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 14px}
-.row{margin:14px 0}
-.row label{display:flex;justify-content:space-between;font-size:14px;font-weight:600;color:var(--mute);margin-bottom:8px}
-.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;background:var(--bg);padding:6px;border-radius:18px}
-.seg button{min-height:52px;border:0;border-radius:13px;background:transparent;font-size:16px;font-weight:600;color:var(--mute)}
+body.open .sheet{transform:none;visibility:visible;transition:transform .5s var(--ease)}
+.grab{width:44px;height:4px;border-radius:9999px;background:var(--line);margin:0 auto 16px}
+.row{margin:16px 0}
+.lbl{display:flex;justify-content:space-between;font:var(--body-4);color:var(--mute);margin-bottom:8px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;background:var(--bg);padding:4px;border-radius:16px}
+.seg button{min-height:52px;padding:8px 12px;border:0;border-radius:12px;background:transparent;font:var(--button-md);color:var(--mute);transition:background-color .3s var(--ease),color .3s var(--ease),transform .5s var(--ease)}
+.seg button:active{transform:scale(.98)}
 .seg button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.15)}
-.step{display:grid;grid-template-columns:64px 1fr 64px;gap:10px;align-items:center}
-.step button{height:56px;border-radius:16px;border:1px solid var(--line);background:var(--bg);font-size:22px;font-weight:600}
-.step button:active{background:var(--accbg)}
+.step{display:grid;grid-template-columns:64px 1fr 64px;gap:12px;align-items:center}
+.step button{height:56px;border-radius:16px;border:1px solid var(--line);background:var(--bg);font:var(--heading-6);transition:background-color .3s var(--ease),transform .5s var(--ease)}
+.step button:active{background:var(--accbg);transform:scale(.98)}
 input[type=range]{width:100%;height:56px;accent-color:var(--acc);margin:0}
-.done{width:100%;min-height:56px;border:0;border-radius:18px;background:var(--acc);color:var(--bg);font-size:17px;font-weight:600;margin-top:10px}
+.done{width:100%;min-height:56px;padding:8px 12px;border:0;border-radius:16px;background:var(--acc);color:var(--bg);font:var(--button-md);margin-top:12px;transition:opacity .3s var(--ease),transform .5s var(--ease)}
+.done:active{transform:scale(.98)}
+@media(hover:hover){
+.ib:hover,.step button:hover,.spk:not(.playing):hover,.learn:not(.on):hover,.pall.on:hover{background:var(--accbg)}
+.card:hover,.pn a:hover{border-color:var(--acc)}
+.tabs a:not(.on):hover,.seg button:hover{color:var(--ink)}
+.pall:not(.on):hover,.done:hover,.learn.on:hover,.spk.playing:hover{opacity:.88}
+}
+@media(prefers-reduced-motion:reduce){
+*,*::before,*::after{transition-property:opacity,background-color,border-color,color!important;scroll-behavior:auto!important}
+.card:active,.ib:active,.tabs a:active,.spk:active,.pall:active,.learn:active,.pn a:active,.seg button:active,.step button:active,.done:active{transform:none;opacity:.8}
+.skip{transform:none;opacity:0}.skip:focus{opacity:1}
+.sheet{transform:none;opacity:0;transition:opacity .3s var(--ease),visibility 0s .3s}
+body.open .sheet{opacity:1;transition:opacity .3s var(--ease)}
+}
 </style>
 </head>
 <body>
+<a class="skip" href="#app" id="skip">Skip to content</a>
 <header class="top"><div class="bar" id="bar"></div><nav class="tabs" id="tabs"></nav></header>
-<main id="app"></main>
+<main id="app" tabindex="-1"></main>
 <div class="scrim" id="scrim"></div>
-<section class="sheet" id="sheet" aria-label="Reading settings">
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Reading settings">
   <div class="grab"></div>
-  <div class="row"><label>Theme</label>
-    <div class="seg" data-k="theme"><button data-v="light">Light</button><button data-v="dark">Dark</button><button data-v="auto">Auto</button></div></div>
-  <div class="row"><label>Text size <span id="fsv"></span></label>
-    <div class="step"><button id="fsm" aria-label="Smaller">A−</button><input type="range" id="fs" min="15" max="34" step="1"><button id="fsp" aria-label="Larger">A+</button></div></div>
-  <div class="row"><label>Side padding <span id="pdv"></span></label>
-    <input type="range" id="pd" min="0" max="72" step="2"></div>
-  <div class="row"><label>Line spacing <span id="lhv"></span></label>
+  <div class="row"><span class="lbl" id="l-theme">Theme</span>
+    <div class="seg" data-k="theme" role="group" aria-labelledby="l-theme"><button data-v="light">Light</button><button data-v="dark">Dark</button><button data-v="auto">Auto</button></div></div>
+  <div class="row"><label class="lbl" for="fs">Text size <span id="fsv"></span></label>
+    <div class="step"><button id="fsm" aria-label="Smaller">A−</button><input type="range" id="fs" min="0" max="5" step="1"><button id="fsp" aria-label="Larger">A+</button></div></div>
+  <div class="row"><label class="lbl" for="pd">Side padding <span id="pdv"></span></label>
+    <input type="range" id="pd" min="0" max="8" step="1"></div>
+  <div class="row"><label class="lbl" for="lh">Line spacing <span id="lhv"></span></label>
     <input type="range" id="lh" min="1.4" max="2.2" step="0.05"></div>
-  <div class="row"><label>Font</label>
-    <div class="seg" data-k="font"><button data-v="serif">Serif</button><button data-v="sans">Sans</button></div></div>
+  <div class="row"><span class="lbl" id="l-font">Font</span>
+    <div class="seg" data-k="font" role="group" aria-labelledby="l-font"><button data-v="sans">Sans</button><button data-v="serif">Serif</button></div></div>
   <button class="done" id="done">Done</button>
-</section>
+</div>
 <script src="d/s.js"></script><script src="d/dua.js"></script>
 <script>
 const S=window.S;
 const DU=window.DUA;
 const $=s=>document.querySelector(s);
-const defaults={theme:'auto',fs:20,pd:24,lh:1.7,font:'serif',rate:'slow'};
+const defaults={theme:'auto',fs:20,pd:24,lh:1.7,font:'sans',rate:'slow',v:2};
 let P={...defaults};
 try{Object.assign(P,JSON.parse(localStorage.getItem('n99prefs')||'{}'))}catch(e){}
+/* reader text sizes, all on the type scale; each body size sets the sizes around it */
+const FS=[16,18,20,24,30,36],PD=[0,8,12,16,24,32,40,48,64];
+const LV={16:{ar:48,arsm:36,tr:20,m:14,dar:30,dt:12,h3:12,nt:14},18:{ar:60,arsm:36,tr:20,m:16,dar:30,dt:12,h3:12,nt:16},20:{ar:60,arsm:36,tr:24,m:18,dar:36,dt:14,h3:12,nt:16},24:{ar:72,arsm:48,tr:30,m:20,dar:48,dt:16,h3:14,nt:20},30:{ar:96,arsm:60,tr:36,m:24,dar:48,dt:20,h3:18,nt:24},36:{ar:96,arsm:72,tr:48,m:30,dar:60,dt:24,h3:20,nt:30}};
+/* older saved settings: snap sizes onto the new steps, and move to the new default font once */
+P.fs=[...FS].reverse().find(v=>v<=+P.fs)||FS[0];
+P.pd=PD.reduce((a,v)=>Math.abs(v-P.pd)<Math.abs(a-P.pd)?v:a,PD[0]);
+if(P.v!==2){P.font='sans';P.v=2}
 const save=()=>{try{localStorage.setItem('n99prefs',JSON.stringify(P))}catch(e){}};
 /* learned marks (same key as before, so existing marks are kept) */
 const LKEY='n99learned_s';
@@ -170,21 +218,32 @@ function apply(){
   const r=document.documentElement;
   r.dataset.theme=dark?'dark':'light';
   r.style.setProperty('--fs',P.fs+'px');r.style.setProperty('--pad',P.pd+'px');r.style.setProperty('--lh',P.lh);
-  r.style.setProperty('--body',P.font==='serif'?"'Newsreader',Georgia,serif":"'Inter',system-ui,sans-serif");
-  document.querySelector('meta[name=theme-color]').content=dark?'#121413':'#faf8f4';
-  $('#fs').value=P.fs;$('#pd').value=P.pd;$('#lh').value=P.lh;
+  for(const[k,v]of Object.entries(LV[P.fs]))r.style.setProperty('--f-'+k,v+'px');
+  r.style.setProperty('--body',P.font==='serif'?"'Newsreader',Georgia,serif":"var(--ui)");
+  document.querySelector('meta[name=theme-color]').content=dark?'#181818':'#faf8f4';
+  $('#fs').value=FS.indexOf(P.fs);$('#pd').value=PD.indexOf(P.pd);$('#lh').value=P.lh;
+  $('#fs').setAttribute('aria-valuetext',P.fs+' pixels');$('#pd').setAttribute('aria-valuetext',P.pd+' pixels');
   $('#fsv').textContent=P.fs+'px';$('#pdv').textContent=P.pd+'px';$('#lhv').textContent=(+P.lh).toFixed(2);
   document.querySelectorAll('.seg').forEach(s=>s.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',P[s.dataset.k]===b.dataset.v)));
 }
 mq.addEventListener('change',apply);
 document.querySelectorAll('.seg').forEach(s=>s.onclick=e=>{const b=e.target.closest('button');if(b){P[s.dataset.k]=b.dataset.v;save();apply()}});
 const bind=(id,k,f=Number)=>$(id).oninput=e=>{P[k]=f(e.target.value);save();apply()};
-bind('#fs','fs');bind('#pd','pd');bind('#lh','lh');
-$('#fsm').onclick=()=>{P.fs=Math.max(15,P.fs-1);save();apply()};
-$('#fsp').onclick=()=>{P.fs=Math.min(34,P.fs+1);save();apply()};
-const sheet=v=>document.body.classList.toggle('open',v);
+bind('#fs','fs',v=>FS[+v]);bind('#pd','pd',v=>PD[+v]);bind('#lh','lh');
+$('#fsm').onclick=()=>{P.fs=FS[Math.max(0,FS.indexOf(P.fs)-1)];save();apply()};
+$('#fsp').onclick=()=>{P.fs=FS[Math.min(FS.length-1,FS.indexOf(P.fs)+1)];save();apply()};
+/* settings dialog: the page behind is inert while it is open, and focus returns to the button that opened it */
+let opener=null;
+const sheet=v=>{
+  if(v===document.body.classList.contains('open'))return;
+  document.body.classList.toggle('open',v);
+  document.querySelectorAll('.top,#app,#skip').forEach(el=>el.inert=v);
+  if(v){opener=document.activeElement;$('#done').focus()}else if(opener&&opener.isConnected)opener.focus();
+};
 $('#scrim').onclick=$('#done').onclick=()=>sheet(false);
 addEventListener('keydown',e=>{if(e.key==='Escape')sheet(false)});
+$('#skip').onclick=e=>{e.preventDefault();$('#app').focus()};
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
 
 const bar=(left,title)=>{$('#bar').innerHTML=`${left}<h1>${title}</h1><button class="ib" id="aa" aria-label="Reading settings">${AA}</button>`;$('#aa').onclick=()=>sheet(true)};
 function list(){
@@ -192,14 +251,14 @@ function list(){
   tabs('n');
   bar('<span class="sp"></span>','99 Names of Allah');
   const c=count();
-  $('#app').innerHTML=`<div class="lead"><div class="a">أسماء الله الحسنى</div><p>Simple explanations, stories and examples</p><div class="prog"><div class="tx">${c} of ${S.length} learned</div><div class="bg"><div class="fl" style="width:${c/S.length*100}%"></div></div></div></div>
-  <div class="grid">${S.map((n,i)=>grp(i,S.length)+`<a class="card${L.has(n.n)?' ok':''}" href="#/s/${n.n}"><span class="num">${n.n}</span><span class="t"><div class="tr">${n.tr}</div><div class="m">${n.m}</div></span><span class="ar" lang="ar">${n.ar}</span><span class="chk">${CHECK}</span></a>`).join('')}</div><p class="disc">Written with AI for easy reading. Names follow the commonly used list of 99; scholars differ slightly on the exact list. Please check sources and ask a scholar for anything you are unsure of.</p>`;
+  $('#app').innerHTML=`<div class="lead"><div class="a">أسماء الله الحسنى</div><p>Simple explanations, stories and examples</p><div class="prog"><div class="tx">${c} of ${S.length} learned</div><div class="bg"><div class="fl" style="transform:scaleX(${c/S.length})"></div></div></div></div>
+  <div class="grid">${S.map((n,i)=>grp(i,S.length)+`<a class="card${L.has(n.n)?' ok':''}" href="#/s/${n.n}"><span class="num">${n.n}</span><span class="t"><span class="tr">${n.tr}</span><span class="m">${n.m}</span></span><span class="ar" lang="ar">${n.ar}</span><span class="chk">${CHECK}</span></a>`).join('')}</div><p class="disc">Written with AI for easy reading. Names follow the commonly used list of 99; scholars differ slightly on the exact list. Please check sources and ask a scholar for anything you are unsure of.</p>`;
   scrollTo(0,gy('#/'));
 }
 function name(i){
   const n=S[i-1];if(!n)return list();
   tabs(null);
-  document.title=n.tr+' — 99 Names';
+  document.title=n.tr+' · 99 Names';
   bar(`<a class="ib" href="#/" aria-label="Back">${BACK}</a>`,n.tr);
   const pv=S[i-2],nx=S[i];
   $('#app').innerHTML=`<div class="read"><div class="hero"><div class="k">${n.n} / ${S.length}</div><div class="ar" lang="ar">${n.ar}</div><div class="tr">${n.tr}</div><div class="m">${n.m}</div></div>
@@ -211,11 +270,11 @@ function name(i){
   scrollTo(0,0);
 }
 function dlist(){
-  document.title='Dua — 99 Names of Allah';
+  document.title='Dua · 99 Names of Allah';
   tabs('d');
   bar('<span class="sp"></span>','Dua');
   $('#app').innerHTML=`<div class="lead"><div class="a">الدعاء</div><p>Duas from the hadith, line by line</p></div>
-  <div class="grid">${DU.map(d=>`<a class="card d" href="#/dua/${d.n}"><span class="num">${d.n}</span><span class="t"><div class="tr">${d.title}</div><div class="m">${d.ref}</div></span><span class="ar" lang="ar">${d.ar}</span></a>`).join('')}</div><p class="disc">Written with AI for easy reading. Please check sources and ask a scholar for rulings or anything you are unsure of.</p>`;
+  <div class="grid">${DU.map(d=>`<a class="card d" href="#/dua/${d.n}"><span class="num">${d.n}</span><span class="t"><span class="tr">${d.title}</span><span class="m">${d.ref}</span></span><span class="ar" lang="ar">${d.ar}</span></a>`).join('')}</div><p class="disc">Written with AI for easy reading. Please check sources and ask a scholar for rulings or anything you are unsure of.</p>`;
   scrollTo(0,gy('#/dua'));
 }
 /* ---- audio: reads the Arabic lines aloud with the device's own Arabic voice ---- */
@@ -243,7 +302,7 @@ function sayLine(d,i,after){
   const v=arVoice();
   if(!v){stopAudio();voiceHint();return}
   const my=spk.id;spk.idx=i;markAudio();
-  if(spk.all){const el=document.querySelector(`.ln[data-i="${i}"]`);if(el&&el.scrollIntoView)el.scrollIntoView({block:'center',behavior:'smooth'})}
+  if(spk.all){const el=document.querySelector(`.ln[data-i="${i}"]`);if(el&&el.scrollIntoView)el.scrollIntoView({block:'center',behavior:RM.matches?'auto':'smooth'})}
   const u=new SpeechSynthesisUtterance(d.lines[i].ar);
   u.voice=v;u.lang=v.lang;u.rate=RATES[P.rate]||RATES.slow;
   const done=()=>{if(my===spk.id)after()};
@@ -272,7 +331,7 @@ function playAll(d){
 function dua(i){
   const d=DU[i-1];if(!d)return dlist();
   tabs(null);
-  document.title=d.title+' — Dua';
+  document.title=d.title+' · Dua';
   bar(`<a class="ib" href="#/dua" aria-label="Back">${BACK}</a>`,d.title);
   const pv=DU[i-2],nx=DU[i];
   const lines=d.lines.map((l,idx)=>l.step?`<div class="ln ask">${inl(l.step)}</div>`:`<div class="ln" data-i="${idx}"><div class="ltop">${TTS?`<button class="spk" data-i="${idx}" aria-label="Play this line">${PLAY}</button>`:''}<div class="dar" lang="ar">${l.ar}</div></div><div class="dm">${l.x?`<span class="cnt">× ${l.x}</span>`:''}${inl(l.m)}</div><div class="dt">${l.t}</div></div>`).join('');
